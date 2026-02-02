@@ -1,36 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎓Course Enrollment System
 
-## Getting Started
+A full-stack course management system with authentication, instructor and student dashboards, course creation/enrollment, and role-based access.
 
-First, run the development server:
+# Tech Stack
+Frontend: React, Tailwind CSS, Next.js (App Router)
 
-```bash
+Backend: Next.js API Routes
+
+Database: PostgreSQL + Prisma ORM
+
+Auth: Server-side session with cookies
+
+
+## 🚀 Features
+
+- User registration & login (Student & Instructor roles)
+- Instructor dashboard with:
+  - Course creation
+  - Course deletion
+- Student dashboard with:
+  - Course list
+  - Enrollment functionality
+- Search and view course details
+- Responsive design with Tailwind CSS
+- Next.js 14 App Router, Prisma, PostgreSQL
+
+---
+
+## 📁 Project Structure
+
+my-app/
+├── prisma/ # Prisma schema & migrations
+├── public/ # Public assets
+├── src/
+│ ├── app/
+│ │ ├── api/ # Next.js API routes
+│ │ ├── dashboard/ # Student & Instructor pages
+│ │ ├── components/ # Reusable components
+│ │ └── page.tsx # Landing page
+│ └── lib/ # Auth & database helpers
+├── .env.example # Environment variable template
+├── README.md
+└── package.json
+
+
+
+Install dependencies:
+npm install
+
+Create a .env file based on .env.example:
+
+DATABASE_URL=postgresql://user:password@localhost:5432/databasedb
+NEXT_PUBLIC_API_BASE_URL=http://localhost:3000
+
+🧩 Prisma & Database Setup
+Initialize the database:
+npx prisma migrate dev --name init
+
+Open Prisma Studio (optional):
+npx prisma studio
+
+🖥️ Run Commands
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Build for Production
+npm run build
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+🔐 Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# .env.example
+DATABASE_URL=
+NEXT_PUBLIC_API_BASE_URL=
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+#API Routes
+/api/auth/register	POST	Register user
+/api/auth/login	POST	Login user
+/api/instructor/courses	GET	Fetch instructor's courses
+/api/instructor/courses	POST	Create new course
+/api/instructor/courses/:id	DELETE	Delete course by ID
+/api/courses	GET	List all courses
+/api/courses/:id/enroll	POST	Enroll student in course
