@@ -1,0 +1,21 @@
+.marquee-wrapper {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.marquee-text {
+  display: inline-block;
+  animation: scale-text 3s ease-in-out infinite;
+  font-size: 26px; 
+  padding: 0 1rem;
+}
+
+@keyframes scale-text {
+  0%, 100% {
+    transform: scale(0.8);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
