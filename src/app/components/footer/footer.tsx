@@ -41,7 +41,7 @@ export default function Footer() {
             Academix Tec.<br />
             Giza,<br />
             Cairo, Egypt<br />
-            support@academix.com
+            youremail@gmail.com.com
           </p>
         </div>
       </div>
