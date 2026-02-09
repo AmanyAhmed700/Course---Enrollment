@@ -14,21 +14,23 @@ interface StudentProfile {
   }>;
 }
 
-async function getStudentProfile(id: string): Promise<StudentProfile> {
-  // استخدام المسار النسبي يمنع تكرار رابط الموقع ويحل مشكلة الـ 404
-  const res = await fetch(`/api/students/${id}`, {
-    cache: 'no-store',
-  });
+// /app/students/[id]/page.tsx
 
+async function getStudentProfile(id: string) {
+  // 1. تحديد الرابط الكامل للموقع (استخدمي رابط Railway الخاص بكِ)
+  const domain = "https://course-enrollment-production.up.railway.app";
+  
+  // 2. استخدام الرابط الكامل في الـ fetch
+  const res = await fetch(`${domain}/api/students/${id}`, { 
+    cache: 'no-store' 
+  });
+  
   if (!res.ok) {
-    if (res.status === 404) {
-      throw new Error('Student not found');
-    }
+    if (res.status === 404) throw new Error('Student not found');
     throw new Error('Failed to fetch student profile');
   }
   return res.json();
 }
-
 export default async function StudentProfilePage(context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params;
 
