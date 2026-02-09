@@ -19,8 +19,12 @@ interface CourseDetails {
 }
 
 async function getCourseDetails(id: string): Promise<CourseDetails> {
-  // نستخدم مساراً نسبياً يبدأ بـ / لكي يفهم المتصفح والسيرفر أن الرابط يتبع نفس الموقع
-  const res = await fetch(`/api/courses/${id}`, { cache: 'no-store' });
+  // الحصول على رابط الموقع من متغيرات بيئة Railway أو استخدام قيمة افتراضية
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || `https://${process.env.RAILWAY_STATIC_URL}`;
+
+  const res = await fetch(`${baseUrl}/api/courses/${id}`, { 
+    cache: 'no-store' 
+  });
   
   if (!res.ok) {
     if (res.status === 404) throw new Error('Course not found');
