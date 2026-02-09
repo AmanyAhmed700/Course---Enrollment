@@ -19,10 +19,11 @@ interface CourseDetails {
 }
 
 async function getCourseDetails(id: string): Promise<CourseDetails> {
-  // الحصول على رابط الموقع من متغيرات بيئة Railway أو استخدام قيمة افتراضية
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || `https://${process.env.RAILWAY_STATIC_URL}`;
-
-  const res = await fetch(`${baseUrl}/api/courses/${id}`, { 
+  // نقوم بتحديد الدومين الأساسي يدوياً لضمان عدم فشل الـ parse URL
+  // استبدلي الرابط أدناه برابط موقعك الحقيقي على Railway
+  const domain = "https://course-enrollment-production.up.railway.app";
+  
+  const res = await fetch(`${domain}/api/courses/${id}`, { 
     cache: 'no-store' 
   });
   
@@ -32,7 +33,6 @@ async function getCourseDetails(id: string): Promise<CourseDetails> {
   }
   return res.json();
 }
-
 export default async function CourseDetailsPage(context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params;
 
