@@ -15,12 +15,11 @@ interface StudentProfile {
 }
 
 async function getStudentProfile(id: string): Promise<StudentProfile> {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000'}/api/students/${id}`,
-    {
-      cache: 'no-store',
-    }
-  );
+  // استخدام المسار النسبي يمنع تكرار رابط الموقع ويحل مشكلة الـ 404
+  const res = await fetch(`/api/students/${id}`, {
+    cache: 'no-store',
+  });
+
   if (!res.ok) {
     if (res.status === 404) {
       throw new Error('Student not found');
@@ -29,7 +28,6 @@ async function getStudentProfile(id: string): Promise<StudentProfile> {
   }
   return res.json();
 }
-
 
 export default async function StudentProfilePage(context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params;

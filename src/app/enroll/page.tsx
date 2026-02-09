@@ -15,7 +15,6 @@ interface Course {
   title: string;
   instructorName: string;
 }
-
 export default function EnrollPage() {
   const [students, setStudents] = useState<Student[]>([]);
   const [courses, setCourses] = useState<Course[]>([]);
@@ -26,18 +25,19 @@ export default function EnrollPage() {
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
 
+  // جلب البيانات عند تحميل الصفحة
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
       try {
-    
-        const studentsRes = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000'}/api/students`); 
+        // استخدام مسار نسبي لجلب الطلاب لتجنب تكرار الدومين في Railway
+        const studentsRes = await fetch('/api/students'); 
         if (!studentsRes.ok) throw new Error('Failed to fetch students');
         const studentsData = await studentsRes.json();
         setStudents(studentsData);
 
-      
-        const coursesRes = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000'}/api/courses`);
+        // استخدام مسار نسبي لجلب الكورسات
+        const coursesRes = await fetch('/api/courses');
         if (!coursesRes.ok) throw new Error('Failed to fetch courses');
         const coursesData = await coursesRes.json();
         setCourses(coursesData);
@@ -70,7 +70,8 @@ export default function EnrollPage() {
     }
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000'}/api/enroll`, {
+      // استخدام مسار نسبي لإرسال بيانات التسجيل
+      const res = await fetch('/api/enroll', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -86,7 +87,7 @@ export default function EnrollPage() {
       if (res.ok) {
         setMessage('Enrollment successful!');
         setMessageType('success');
-      
+        // التوجيه لصفحة الطالب بعد نجاح التسجيل
         router.push(`/students/${selectedStudent}`);
       } else {
         setMessage(data.message || 'Enrollment failed.');
@@ -100,7 +101,6 @@ export default function EnrollPage() {
       setLoading(false);
     }
   };
-
   if (loading && students.length === 0 && courses.length === 0) {
     return (
       <div className="container mx-auto p-6 min-h-screen flex items-center justify-center bg-gray-50">

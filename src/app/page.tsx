@@ -23,24 +23,22 @@ export default function Home() {
   const [search, setSearch] = useState('');
 
   useEffect(() => {
-    async function fetchCourses() {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000'}/api/courses`,
-        { cache: 'no-store' }
-      );
+  async function fetchCourses() {
+    // استخدمي المسار النسبي مباشرة لضمان الاتصال الصحيح بالسيرفر
+    const res = await fetch('/api/courses', { cache: 'no-store' });
 
-      if (!res.ok) {
-        console.error('Failed to fetch courses');
-        return;
-      }
-
-      const data = await res.json();
-      setCourses(data);
-      setFilteredCourses(data);
+    if (!res.ok) {
+      console.error('Failed to fetch courses');
+      return;
     }
 
-    fetchCourses();
-  }, []);
+    const data = await res.json();
+    setCourses(data);
+    setFilteredCourses(data);
+  }
+
+  fetchCourses();
+}, []);
 
   useEffect(() => {
     const query = search.toLowerCase();

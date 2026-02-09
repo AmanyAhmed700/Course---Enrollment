@@ -19,10 +19,9 @@ interface CourseDetails {
 }
 
 async function getCourseDetails(id: string): Promise<CourseDetails> {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000'}/api/courses/${id}`,
-    { cache: 'no-store' }
-  );
+  // نستخدم مساراً نسبياً يبدأ بـ / لكي يفهم المتصفح والسيرفر أن الرابط يتبع نفس الموقع
+  const res = await fetch(`/api/courses/${id}`, { cache: 'no-store' });
+  
   if (!res.ok) {
     if (res.status === 404) throw new Error('Course not found');
     throw new Error('Failed to fetch course details');
